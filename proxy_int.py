@@ -1,5 +1,6 @@
 from flask import Flask, request
 import requests
+from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
 
@@ -31,4 +32,6 @@ def proxy(path):
     return response.content, response.status_code, response_headers
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8900)
+    print("Running in port 8900")
+    http_server = WSGIServer(('', 8900), app)
+    http_server.serve_forever()
